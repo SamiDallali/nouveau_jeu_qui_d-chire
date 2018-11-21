@@ -9,6 +9,11 @@ def gameplay(n,value_max): #n: taille de la grille, value_max : score à attendr
         pos_ennemi=get_position_ennemi(grid)
         pos_objectif=get_position_objectif(grid)
         command=read_player_command()
+        
+        if move_impossible(grid,pos_player,command):
+            print("Mouvement impossible")
+            continue
+
         if move_pos_player(grid,pos_player,command)!=move_pos_ennemi(pos_player,pos_ennemi,pos_objectif) and move_pos_player(grid,pos_player,command)!=pos_objectif and (move_pos_player(grid,pos_player,command),move_pos_ennemi(pos_player,pos_ennemi,pos_objectif))!=(pos_ennemi,pos_player):
             grid=move_player(grid,pos_player,command)
             grid=move_ennemi(grid,pos_player,pos_ennemi,pos_objectif)
@@ -292,5 +297,17 @@ def get_position_player(grid):
 #
 def test_get_position_player():
     assert get_position_player([[0,0,0,0],[0,0,4,0],[0,8,16,0],[0,0,0,0]])==(2,1)
+    
+def move_impossible(grid,pos_player,command):
+    n=len(grid)
+    if (command=='up' or command=='z') and pos_player[0]==0 :
+        return True
+    if (command=='down' or command=='s') and pos_player[0]==n-1 :
+        return True
+    if (command=='right' or command=='d') and pos_player[1]==n-1 :
+        return True
+    if (command=='left' or command=='q') and pos_player[1]==0 :
+        return True
+
 
 gameplay(4,512)
